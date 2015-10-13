@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -23,23 +24,41 @@ namespace WpfAppSocioQuery
     {
         SqlConnection sqlConnection1 = new SqlConnection(@"Data Source=.\SQLEXPRESS;User ID=sa;Password=badazok0;Initial Catalog=Sociobase");
         SqlConnection sqlConnection2 = new SqlConnection(@"Data Source=.\SQLEXPRESS;User ID=sa;Password=badazok0;Initial Catalog=Sociobase");
-        //SqlConnection sqlConnection3 = new SqlConnection(@"Data Source=.\SQLEXPRESS;User ID=sa;Password=badazok0;Initial Catalog=Sociobase");
-        //SqlConnection sqlConnection4 = new SqlConnection(@"Data Source=.\SQLEXPRESS;User ID=sa;Password=badazok0;Initial Catalog=Sociobase");
+        SqlConnection sqlConnection3 = new SqlConnection(@"Data Source=.\SQLEXPRESS;User ID=sa;Password=badazok0;Initial Catalog=Sociobase");
+        SqlConnection sqlConnection4 = new SqlConnection(@"Data Source=.\SQLEXPRESS;User ID=sa;Password=badazok0;Initial Catalog=Sociobase");
+        SqlConnection sqlConnection5 = new SqlConnection(@"Data Source=.\SQLEXPRESS;User ID=sa;Password=badazok0;Initial Catalog=Sociobase");
         SqlDataReader reader;
         SqlCommand cmd = new SqlCommand("SELECT * FROM Articles");
-        
+        SqlCommand SelectDigest = new SqlCommand("SELECT * FROM Digests");
+        SqlDataReader ReadDigest;
+        SqlDataReader readAuthors;
+        SqlCommand selectAuthors = new SqlCommand("SELECT a.*, CASE WHEN aa.ArticleID = '6d631377-b0d6-4006-954a-c04f02303cf7' THEN 1 ELSE 0 END AS 'IsCurrent' FROM Authors AS a LEFT OUTER JOIN ArticleAuthors AS aa ON aa.AuthorID = a.ID ORDER BY IsCurrent DESC"); 
+
         public MainWindow()
         {
             InitializeComponent();
-
             sqlConnection1.Open();
             sqlConnection2.Open();
-            //sqlConnection3.Open();
-            //sqlConnection4.Open();
+            sqlConnection3.Open();
+            sqlConnection4.Open();
+            sqlConnection5.Open();
             cmd.Connection = sqlConnection1;
             reader = cmd.ExecuteReader();
-        }
+            SelectDigest.Connection = sqlConnection3;
+            ReadDigest = SelectDigest.ExecuteReader();
+            selectAuthors.Connection = sqlConnection4;
+           // readAuthors = selectAuthors.ExecuteReader();
 
+
+            while ((ReadDigest.Read()) && (ReadDigest.HasRows))
+            {
+                ComboBoxItem cboxitem = new ComboBoxItem();
+                cboxitem.Content = ReadDigest["Name"];
+                cboxitem.Tag = ReadDigest["ID"];
+                Digest.Items.Add(cboxitem);                         
+            }            
+        }                 
+                    
         void WriteTextBlockFromReader()
         {            
             if ((reader.Read()) && (reader.HasRows))
@@ -66,6 +85,7 @@ namespace WpfAppSocioQuery
             }
         } 
 
+        
         private void query_Click(object sender, RoutedEventArgs e)
         {
             /*Button F;
@@ -75,10 +95,39 @@ namespace WpfAppSocioQuery
             }
 
             Button D = sender as Button; преобразование типов*/
-
-
+            
             WriteTextBlockFromReader();
-             
+
+            selectAuthors.CommandText = "SELECT a.*, CASE WHEN aa.ArticleID = '" + reader["ID"] + "' THEN 1 ELSE 0 END AS 'IsCurrent' FROM Authors AS a LEFT OUTER JOIN ArticleAuthors AS aa ON aa.AuthorID = a.ID ORDER BY IsCurrent DESC";
+            readAuthors = selectAuthors.ExecuteReader();
+            Authors.Items.Clear();
+            while ((readAuthors.Read()) && (readAuthors.HasRows))
+            {
+                ListBoxItem lboxAuthor = new ListBoxItem();
+                string a = readAuthors["FirstName"].ToString();
+                string b = readAuthors["LastName"].ToString();
+
+                lboxAuthor.Content = a + " " + b;
+                lboxAuthor.Tag = readAuthors["ID"];
+                Authors.Items.Add(lboxAuthor);
+
+                if (readAuthors["IsCurrent"].ToString() == "1")
+                {
+                    lboxAuthor.IsSelected = true;
+                }                            
+            }
+            
+                        
+            readAuthors.Close();
+
+            foreach (object item in Digest.Items)
+            {
+                ComboBoxItem a = item as ComboBoxItem;
+                if (a.Tag.ToString() == reader["DigestID"].ToString())
+                {
+                    a.IsSelected = true;
+                }
+            }                       
         }
                                         
         private void AddNewArticle_Click(object sender, RoutedEventArgs e)
@@ -96,22 +145,67 @@ namespace WpfAppSocioQuery
             WriteTextBlockFromReader();
         }
 
+
         private void UpdateArticles_Click(object sender, RoutedEventArgs e)
         {
-            SqlCommand UpdateArticleContent = new SqlCommand("UPDATE Articles SET Language='" + textBox2.Text + "', Name='" + textBox3.Text + "', Annotation='" + textBox4.Text + "' WHERE ID='" + reader["ID"] + "'");
+            ComboBoxItem selecteddigest = Digest.SelectedItem as ComboBoxItem;
+            string c = selecteddigest.Tag.ToString();
+            SqlCommand UpdateArticleContent = new SqlCommand("UPDATE Articles SET Language='" + textBox2.Text + "', Name='" + textBox3.Text + "', DigestID='" + c + "', Annotation='" + textBox4.Text + "' WHERE ID= '" + reader["ID"] + "'");
             UpdateArticleContent.Connection = sqlConnection2;
             UpdateArticleContent.ExecuteNonQuery();
+                                   
+            //Guid.Parse(c);
+            //SqlCommand SaveDigestID = new SqlCommand("UPDATE Articles SET DigestID = '" + c + "' WHERE ID = '" + reader["ID"] + "'");
+            //SaveDigestID.Connection = sqlConnection2;
+            //SaveDigestID.ExecuteNonQuery();
         }
 
-        ~MainWindow()
+        
+
+       // ~MainWindow()
+       //{
+       //  reader.Close();
+       //sqlConnection1.Close();
+       //sqlConnection2.Close();
+       //}
+
+        
+
+        private void ToAuthors_Click(object sender, RoutedEventArgs e)
         {
-            sqlConnection1.Close();
+            Window Window1 = new Window1();
+            Window1.Show();
+        }
+
+        private void ToDigests_Click(object sender, RoutedEventArgs e)
+        {
+            Window Window2 = new Window2();
+            Window2.Show();
+
+        }
+
+        private void ToKeywords_Click(object sender, RoutedEventArgs e)
+        {
+            Window Window3 = new Window3();
+            Window3.Show();
+        }
+
+        private void ToReferences_Click(object sender, RoutedEventArgs e)
+        {
+            Window Window4 = new Window4();
+            Window4.Show();
+        }
+
+        private void ToCareerChanges_Click(object sender, RoutedEventArgs e)
+        {
+            Window Window5 = new Window5();
+            Window5.Show();
         }
 
         
     }
     
-
+    
 
 
 

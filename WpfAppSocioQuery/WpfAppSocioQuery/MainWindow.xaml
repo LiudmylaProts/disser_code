@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Sociology" Height="350" Width="525" >
     <Grid>
-        
+
         <StackPanel>
             <Button x:Name="query" Content="Next Article" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Cursor="Arrow" Click="query_Click"/>
             <TextBox x:Name="textBox1" HorizontalAlignment="Left" MinWidth="100" />
@@ -22,8 +22,17 @@
             <Button x:Name="AddNewArticle" Content="Add Article" HorizontalAlignment="Center" VerticalAlignment="Top" Click="AddNewArticle_Click"/>
             <TextBox x:Name="textBox" HorizontalAlignment="Center"  VerticalAlignment="Top" MinWidth="100"/>
             <Button x:Name="DeleteArticle" Content="Delete Article" HorizontalAlignment="Center" VerticalAlignment="Top" Click="DeleteArticle_Click"/>
+            
         </StackPanel>
-       
+        <StackPanel>
+            <Button x:Name="ToAuthors" Content="Authors" HorizontalAlignment="Right" VerticalAlignment="Top" Click="ToAuthors_Click" />
+            <Button x:Name="ToDigests" Content="Digests" HorizontalAlignment="Right" VerticalAlignment="Top" Click="ToDigests_Click" />
+            <Button x:Name="ToKeywords" Content="Keywords" HorizontalAlignment="Right" VerticalAlignment="Top" Click="ToKeywords_Click" />
+            <Button x:Name="ToReferences" Content="References" HorizontalAlignment="Right" VerticalAlignment="Top" Click="ToReferences_Click" />
+            <Button x:Name="ToCareerChanges" Content="Career Changes" HorizontalAlignment="Right" VerticalAlignment="Top" Click="ToCareerChanges_Click" />
+            <ComboBox x:Name="Digest" Width="198"/>
+            <ListBox x:Name="Authors" Height="43" Margin="160,0,159,0" SelectionMode="Multiple"/>
+        </StackPanel>
 
     </Grid>
 </Window>

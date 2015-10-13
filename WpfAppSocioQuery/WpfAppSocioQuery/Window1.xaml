@@ -1,0 +1,34 @@
+﻿<Window x:Class="WpfAppSocioQuery.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAppSocioQuery"
+        mc:Ignorable="d"
+        Title="Window1" Height="300" Width="300">
+    <Grid>
+        <StackPanel>
+             <Button x:Name="NextAuthor" Content="Next Author" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Click="NextAuthor_Click"/>
+            <TextBox x:Name="textBox1" HorizontalAlignment="Left" MinWidth="100" />
+            <TextBox x:Name="textBox2" HorizontalAlignment="Left" MinWidth="100" />
+            <TextBox x:Name="textBox3" HorizontalAlignment="Left" MinWidth="100" />
+            <TextBox x:Name="textBox4" HorizontalAlignment="Left" MinWidth="100" />
+            <TextBox x:Name="textBox5" HorizontalAlignment="Left" MinWidth="100" />
+            <TextBox x:Name="textBox6" HorizontalAlignment="Left" MinWidth="100" />
+            <TextBox x:Name="textBox7" HorizontalAlignment="Left" MinWidth="100" />
+            <TextBox x:Name="textBox8" HorizontalAlignment="Left" MinWidth="100" />
+            <TextBox x:Name="textBox9" HorizontalAlignment="Left" MinWidth="100" />
+            <TextBox x:Name="textBox10" HorizontalAlignment="Left" MinWidth="100" />
+            <Button x:Name="UpdateAuthor" Content="Save Author" HorizontalAlignment="Left" Click="UpdateAuthor_Click" />
+        </StackPanel>
+
+        <StackPanel>
+            <Button x:Name="AddNewAuthor" Content="Add Author" HorizontalAlignment="Center" VerticalAlignment="Top" Click="AddNewAuthor_Click"/>
+            <TextBox x:Name="textBox" HorizontalAlignment="Center"  VerticalAlignment="Top" MinWidth="100"/>
+            <Button x:Name="DeleteAuthor" Content="Delete Author" HorizontalAlignment="Center" VerticalAlignment="Top" Click="DeleteAuthor_Click"/>
+
+        </StackPanel>
+
+
+    </Grid>
+</Window>
