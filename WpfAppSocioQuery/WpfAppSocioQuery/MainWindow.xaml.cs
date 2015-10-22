@@ -98,9 +98,10 @@ namespace WpfAppSocioQuery
             
             WriteTextBlockFromReader();
 
-            selectAuthors.CommandText = "SELECT a.*, CASE WHEN aa.ArticleID = '" + reader["ID"] + "' THEN 1 ELSE 0 END AS 'IsCurrent' FROM Authors AS a LEFT OUTER JOIN ArticleAuthors AS aa ON aa.AuthorID = a.ID ORDER BY IsCurrent DESC";
-            readAuthors = selectAuthors.ExecuteReader();
             Authors.Items.Clear();
+            selectAuthors.CommandText = "SELECT DISTINCT a.*, CASE WHEN aa.ArticleID = '" + reader["ID"] + "' THEN 1 ELSE 0 END AS 'IsCurrent' FROM Authors AS a LEFT OUTER JOIN ArticleAuthors AS aa ON aa.AuthorID = a.ID ORDER BY IsCurrent DESC";
+            readAuthors = selectAuthors.ExecuteReader();
+           
             while ((readAuthors.Read()) && (readAuthors.HasRows))
             {
                 ListBoxItem lboxAuthor = new ListBoxItem();
@@ -153,6 +154,29 @@ namespace WpfAppSocioQuery
             SqlCommand UpdateArticleContent = new SqlCommand("UPDATE Articles SET Language='" + textBox2.Text + "', Name='" + textBox3.Text + "', DigestID='" + c + "', Annotation='" + textBox4.Text + "' WHERE ID= '" + reader["ID"] + "'");
             UpdateArticleContent.Connection = sqlConnection2;
             UpdateArticleContent.ExecuteNonQuery();
+
+            foreach (object lboxAuthorItem in Authors.Items)
+            {
+                ListBoxItem authorItem = lboxAuthorItem as ListBoxItem;
+                SqlCommand CountArticleAuthorsLinked = new SqlCommand("SELECT COUNT(*) FROM ArticleAuthors WHERE ArticleID = '" + reader["ID"] + "' AND AuthorID = '" + authorItem.Tag + "'");
+                CountArticleAuthorsLinked.Connection = sqlConnection5;
+
+                int s = (int)CountArticleAuthorsLinked.ExecuteScalar();
+
+                if ((s == 1)&&(authorItem.IsSelected == false))
+                {
+                    SqlCommand DeleteArticleAuthorLink = new SqlCommand("DELETE FROM ArticleAuthors WHERE ArticleID = '" + reader["ID"] + "' AND AuthorID = '" + authorItem.Tag + "'");
+                    DeleteArticleAuthorLink.Connection = sqlConnection5;
+                    DeleteArticleAuthorLink.ExecuteNonQuery();
+                }
+
+                if ((s != 1)&&(authorItem.IsSelected))
+                {
+                    SqlCommand InsertArticleAuthorLink = new SqlCommand("INSERT INTO ArticleAuthors (ArticleID, AuthorID) VALUES ('" + reader["ID"] + "' , '" + authorItem.Tag + "')");
+                    InsertArticleAuthorLink.Connection = sqlConnection5;
+                    InsertArticleAuthorLink.ExecuteNonQuery();
+                }
+            }
                                    
             //Guid.Parse(c);
             //SqlCommand SaveDigestID = new SqlCommand("UPDATE Articles SET DigestID = '" + c + "' WHERE ID = '" + reader["ID"] + "'");
