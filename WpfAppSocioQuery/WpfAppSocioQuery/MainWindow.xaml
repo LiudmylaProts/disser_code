@@ -1,38 +1,52 @@
-﻿<Window x:Class="WpfAppSocioQuery.MainWindow"
+﻿<Window x:Class="WpfAppSocioQuery.ArticlesWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:l="clr-namespace:WpfAppSocioQuery"
         mc:Ignorable="d"
-        Title="Sociology" Height="350" Width="525" >
-    <Grid>
-
-        <StackPanel>
-            <Button x:Name="query" Content="Next Article" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Cursor="Arrow" Click="query_Click"/>
-            <TextBox x:Name="textBox1" HorizontalAlignment="Left" MinWidth="100" />
-            <TextBox x:Name="textBox2" HorizontalAlignment="Left" MinWidth="100" />
-            <TextBox x:Name="textBox3" HorizontalAlignment="Left" MinWidth="100" />
-            <TextBox x:Name="textBox4" HorizontalAlignment="Left" MinWidth="100" />
-            <TextBox x:Name="textBox5" HorizontalAlignment="Left" MinWidth="100" />
-            <Button x:Name="UpdateArticles" Content="Save Article" HorizontalAlignment="Left" Click="UpdateArticles_Click" />
-
-        </StackPanel>
-        <StackPanel>
-            <Button x:Name="AddNewArticle" Content="Add Article" HorizontalAlignment="Center" VerticalAlignment="Top" Click="AddNewArticle_Click"/>
-            <TextBox x:Name="textBox" HorizontalAlignment="Center"  VerticalAlignment="Top" MinWidth="100"/>
-            <Button x:Name="DeleteArticle" Content="Delete Article" HorizontalAlignment="Center" VerticalAlignment="Top" Click="DeleteArticle_Click"/>
-            
-        </StackPanel>
-        <StackPanel>
+        Title="Sociology" >
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <Button x:Name="ToAuthors" Content="Authors" HorizontalAlignment="Right" VerticalAlignment="Top" Click="ToAuthors_Click" />
             <Button x:Name="ToDigests" Content="Digests" HorizontalAlignment="Right" VerticalAlignment="Top" Click="ToDigests_Click" />
             <Button x:Name="ToKeywords" Content="Keywords" HorizontalAlignment="Right" VerticalAlignment="Top" Click="ToKeywords_Click" />
             <Button x:Name="ToReferences" Content="References" HorizontalAlignment="Right" VerticalAlignment="Top" Click="ToReferences_Click" />
             <Button x:Name="ToCareerChanges" Content="Career Changes" HorizontalAlignment="Right" VerticalAlignment="Top" Click="ToCareerChanges_Click" />
-            <ComboBox x:Name="Digest" Width="198"/>
-            <ListBox x:Name="Authors" Height="43" Margin="160,0,159,0" SelectionMode="Multiple"/>
         </StackPanel>
 
-    </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="100"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition MinWidth="100" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <ListBox x:Name="ArticlesListbox" Grid.Column="0" SelectionChanged="ArticlesListbox_SelectionChanged"></ListBox>
+
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" />
+
+            <StackPanel Grid.Column="2">
+                <!--<Button x:Name="query" Content="Next Article" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Cursor="Arrow" Click="query_Click"/>-->
+                <TextBox x:Name="textBoxID" Visibility="Collapsed" />
+                <TextBox x:Name="textBoxLanguage" />
+                <TextBox x:Name="textBoxName" />
+                <TextBox x:Name="textBoxAnnotation" />
+                <TextBox x:Name="textBoxDigestID" Visibility="Collapsed" />
+                <ComboBox x:Name="Digest"  />
+                <ListBox x:Name="Authors" SelectionMode="Multiple" MinHeight="50"/>
+                <Button x:Name="UpdateArticles" Content="Save Article" HorizontalAlignment="Center" Click="UpdateArticles_Click" Width="93" />
+            </StackPanel>
+        </Grid>
+        
+
+        <!--<StackPanel Visibility="Collapsed">
+            <Button x:Name="AddNewArticle" Content="Add Article" Click="AddNewArticle_Click"/>
+            <TextBox x:Name="textBox" MinWidth="100"/>
+            <Button x:Name="DeleteArticle" Content="Delete Article" Click="DeleteArticle_Click"/>
+        </StackPanel>-->
+    </DockPanel>
 </Window>
