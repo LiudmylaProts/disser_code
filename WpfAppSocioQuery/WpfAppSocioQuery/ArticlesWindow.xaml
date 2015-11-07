@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Sociology" >
     <DockPanel>
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,6">
             <Button x:Name="ToAuthors" Content="Authors" HorizontalAlignment="Right" VerticalAlignment="Top" Click="ToAuthors_Click" />
             <Button x:Name="ToDigests" Content="Digests" HorizontalAlignment="Right" VerticalAlignment="Top" Click="ToDigests_Click" />
             <Button x:Name="ToKeywords" Content="Keywords" HorizontalAlignment="Right" VerticalAlignment="Top" Click="ToKeywords_Click" />
@@ -20,25 +20,48 @@
                 <ColumnDefinition MinWidth="100"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition MinWidth="100" />
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <ListBox x:Name="ArticlesListbox" Grid.Column="0" SelectionChanged="ArticlesListbox_SelectionChanged"></ListBox>
+            <DockPanel Grid.Column="0" Grid.Row="0">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" >                    
+                    <Button x:Name="AddNewArticle" Content="Add Article" Click="AddNewArticle_Click"/>
+                    <Button x:Name="DeleteArticle" Content="Delete Article" Click="DeleteArticle_Click" IsEnabled="False"/>
+                </StackPanel>
 
+                <ListBox x:Name="ArticlesListbox" SelectionChanged="ArticlesListbox_SelectionChanged"/>
+            </DockPanel>
+            
+            
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" />
 
             <StackPanel Grid.Column="2">
                 <!--<Button x:Name="query" Content="Next Article" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Cursor="Arrow" Click="query_Click"/>-->
                 <TextBox x:Name="textBoxID" Visibility="Collapsed" />
+                <TextBlock > Language: </TextBlock>
                 <TextBox x:Name="textBoxLanguage" />
+                <TextBlock > Article name:</TextBlock>
                 <TextBox x:Name="textBoxName" />
+                <TextBlock > Annotation:</TextBlock>
                 <TextBox x:Name="textBoxAnnotation" />
+                <TextBlock > Digest:</TextBlock>
                 <TextBox x:Name="textBoxDigestID" Visibility="Collapsed" />
                 <ComboBox x:Name="Digest"  />
+                <TextBlock > Authors:</TextBlock>
                 <ListBox x:Name="Authors" SelectionMode="Multiple" MinHeight="50"/>
-                <Button x:Name="UpdateArticles" Content="Save Article" HorizontalAlignment="Center" Click="UpdateArticles_Click" Width="93" />
+                <Button x:Name="UpdateArticles" Content="Save Article" HorizontalAlignment="Center" Click="UpdateArticles_Click" Width="93" IsEnabled="False" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="3">
+                <StackPanel Orientation="Horizontal">
+                <Button x:Name="AddReference" Content="Add Reference" IsEnabled="False"></Button>
+                <Button x:Name="DeleteReference" Content="Delete Reference" IsEnabled="False"></Button>
+                </StackPanel>
+                <TextBlock> References: </TextBlock>
+                <ListBox x:Name="ReferencesLBox" MinHeight="50"></ListBox>
             </StackPanel>
         </Grid>
         

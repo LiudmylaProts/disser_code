@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -18,20 +19,25 @@ namespace WpfAppSocioQuery
     /// <summary>
     /// Логика взаимодействия для Window2.xaml
     /// </summary>
-    public partial class Window2 : Window
+    public partial class DigestsWindow : Window
     {
         SqlConnection sqlConnection1 = new SqlConnection(@"Data Source=.\SQLEXPRESS;User ID=sa;Password=badazok0;Initial Catalog=Sociobase");
         SqlConnection sqlConnection2 = new SqlConnection(@"Data Source=.\SQLEXPRESS;User ID=sa;Password=badazok0;Initial Catalog=Sociobase");
         SqlDataReader reader;
         SqlCommand SelectAllDigests = new SqlCommand("SELECT * FROM Digests");
+        DataSet digestsSet;
 
-        public Window2()
+        public DigestsWindow()
         {
             InitializeComponent();
             sqlConnection1.Open();
             sqlConnection2.Open();
             SelectAllDigests.Connection = sqlConnection1;
             reader = SelectAllDigests.ExecuteReader();
+
+            Window qwe = Application.Current.MainWindow;
+            ArticlesWindow articlesWindow = (ArticlesWindow)qwe;
+            digestsSet = articlesWindow.digestsSet;
         }
 
         void WriteTextBlockFromReader()

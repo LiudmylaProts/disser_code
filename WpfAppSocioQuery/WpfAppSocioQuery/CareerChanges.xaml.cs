@@ -18,7 +18,7 @@ namespace WpfAppSocioQuery
     /// <summary>
     /// Логика взаимодействия для Window5.xaml
     /// </summary>
-    public partial class Window5 : Window
+    public partial class CareerChanges : Window
     {
         SqlConnection sqlConnection1 = new SqlConnection(@"Data Source=.\SQLEXPRESS;User ID=sa;Password=badazok0;Initial Catalog=Sociobase");
         SqlConnection sqlConnection2 = new SqlConnection(@"Data Source=.\SQLEXPRESS;User ID=sa;Password=badazok0;Initial Catalog=Sociobase");
@@ -31,7 +31,7 @@ namespace WpfAppSocioQuery
 
         
 
-        public Window5()
+        public CareerChanges()
         {
             InitializeComponent();
             sqlConnection1.Open();

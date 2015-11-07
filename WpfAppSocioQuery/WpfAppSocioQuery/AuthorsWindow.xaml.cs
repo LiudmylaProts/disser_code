@@ -18,7 +18,7 @@ namespace WpfAppSocioQuery
     /// <summary>
     /// Логика взаимодействия для Window1.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class AuthorsWindow : Window
     {
 
         SqlConnection sqlConnection1 = new SqlConnection(@"Data Source=.\SQLEXPRESS;User ID=sa;Password=badazok0;Initial Catalog=Sociobase");
@@ -26,7 +26,7 @@ namespace WpfAppSocioQuery
         SqlDataReader reader;
         SqlCommand SelectAllAutors = new SqlCommand("SELECT * FROM Authors");
 
-        public Window1()
+        public AuthorsWindow()
         {
             InitializeComponent();
             sqlConnection1.Open();

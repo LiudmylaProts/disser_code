@@ -18,7 +18,7 @@ namespace WpfAppSocioQuery
     /// <summary>
     /// Логика взаимодействия для Window3.xaml
     /// </summary>
-    public partial class Window3 : Window
+    public partial class KeywordsWindow : Window
     {
         SqlConnection sqlConnection1 = new SqlConnection(@"Data Source=.\SQLEXPRESS;User ID=sa;Password=badazok0;Initial Catalog=Sociobase");
         SqlConnection sqlConnection2 = new SqlConnection(@"Data Source=.\SQLEXPRESS;User ID=sa;Password=badazok0;Initial Catalog=Sociobase");
@@ -30,7 +30,7 @@ namespace WpfAppSocioQuery
         SqlDataReader readArticle;
 
         
-        public Window3()
+        public KeywordsWindow()
         {
             InitializeComponent();
             sqlConnection1.Open();
